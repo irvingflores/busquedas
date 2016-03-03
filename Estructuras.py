@@ -42,13 +42,19 @@ class ColaPython(ColaAbstracta):
 
     def pop(self):
         """Implementacion de pop."""
+        if self.size == 0:
+            raise ValueError("La lista esta vacia.")
         objetoPop = self.lista[self.inicio]
         self.lista[self.inicio] = None
         self.inicio += 1
+        self.size -= 1
         return objetoPop
 
 cola = ColaPython()
 cola.push("hola")
 cola.push("adios")
+cola.push("nananana")
+print cola.pop()
+print cola.pop()
 print cola.pop()
 print cola.pop()
