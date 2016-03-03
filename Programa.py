@@ -20,7 +20,10 @@ class Busqueda(object):
         """Este metodo crea el algoritmo para buscar."""
         while self.cola.size != 0:
             estado = self.cola.pop()
-            resultado = self.introduceCola(estado)
+            resultadoPreliminar = self.introduceCola(estado)
+            if resultadoPreliminar is not None:
+                break
+        print "Ya acabe"
 
     def introduceCola(self, generador):
         """Este metodo introduce a la cola los estados generados.

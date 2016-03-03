@@ -1,5 +1,6 @@
 """Este modulo, tiene la estructura para crear modelos."""
 import abc
+import pickle
 
 
 class Modelo(object):
@@ -16,15 +17,15 @@ class Modelo(object):
         """Funcion para imprimir de manera humana los modelos."""
         return
 
-    @abc.abstractmethod
     def serializa(self):
-        """Esta funcion regresa un string serializado del modelo."""
-        return
+        """Esta funcion serializa un objeto en un string."""
+        stringVariable = pickle.dumps(self)
+        return stringVariable
 
-    @abc.abstractmethod
-    def deserializa(self, serializado):
-        """Esta funcion regresa un objeto modelo de un string serializado."""
-        return
+    @staticmethod
+    def deserializa(serializado):
+        """Deseriaiza un string en el modelo."""
+        return pickle.loads(serializado)
 
     @abc.abstractmethod
     def siguientes(self):
@@ -35,13 +36,12 @@ class Modelo(object):
 class Caballo(Modelo):
     """La clase que representa al caballo en un tablero de ajedrez."""
 
-    width = 8
-    eight = 8
-
-    def __init__(self, x, y):
+    def __init__(self, x, y, width, eight):
         """El constructor recibe la posicion del caballo."""
         self.x = x
         self.y = y
+        self.width = width
+        self.eight = eight
 
     def imprime(self):
         """Imprime la posicion del caballo."""
@@ -49,18 +49,9 @@ class Caballo(Modelo):
         print "x: ", self.x
         print "y: ", self.y
 
-    def serializa(self):
-        """Implementacion de serializa."""
-        return str(self.x) + "," + str(self.y)
-
-    def deserializa(self, serializado):
-        """Implementacion de deserializa."""
-        variables = serializado.split(",", 2)
-        return Caballo(variables[0], variables[1])
-
     def valida(self, x, y):
         """Valida si una cordenada esta dentro del tablero."""
-        return x < Caballo.width and x >= 0 and y < Caballo.eight and y >= 0
+        return x < self.width and x >= 0 and y < self.eight and y >= 0
 
     def siguientes(self):
         """Crea todos los movientos posibles del caballo."""
@@ -68,37 +59,42 @@ class Caballo(Modelo):
         newx = self.x + 1
         newy = self.y + 2
         if (self.valida(newx, newy)):
-            lista.append(Caballo(newx, newy))
+            lista.append(Caballo(newx, newy, self.width, self.eight))
         newx = self.x + 1
         newy = self.y - 2
         if self.valida(newx, newy):
-            lista.append(Caballo(newx, newy))
+            lista.append(Caballo(newx, newy, self.width, self.eight))
         newx = self.x - 1
         newy = self.y + 2
         if self.valida(newx, newy):
-            lista.append(Caballo(newx, newy))
+            lista.append(Caballo(newx, newy, self.width, self.eight))
         newx = self.x - 1
         newy = self.y - 2
         if self.valida(newx, newy):
-            lista.append(Caballo(newx, newy))
+            lista.append(Caballo(newx, newy, self.width, self.eight))
         newx = self.x + 2
         newy = self.y + 1
         if (self.valida(newx, newy)):
-            lista.append(Caballo(newx, newy))
+            lista.append(Caballo(newx, newy, self.width, self.eight))
         newx = self.x + 2
         newy = self.y - 1
         if self.valida(newx, newy):
-            lista.append(Caballo(newx, newy))
+            lista.append(Caballo(newx, newy, self.width, self.eight))
         newx = self.x - 2
         newy = self.y + 1
         if self.valida(newx, newy):
-            lista.append(Caballo(newx, newy))
+            lista.append(Caballo(newx, newy, self.width, self.eight))
         newx = self.x - 2
         newy = self.y - 1
         if self.valida(newx, newy):
-            lista.append(Caballo(newx, newy))
+            lista.append(Caballo(newx, newy, self.width, self.eight))
         return lista
 
-nada = Caballo(7, 7)
+nada = Caballo(7, 7, 8, 8)
+otro = Caballo(7, 7, 8, 8)
+print nada == otro
 for estado in nada.siguientes():
     estado.imprime()
+blabla = nada.serializa()
+nana = Caballo.deserializa(blabla)
+print nana == nada
