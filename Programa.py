@@ -1,5 +1,6 @@
 """Este modulo implementa la busqueda en anchura."""
 import Estructuras
+import Modelo
 
 
 class Busqueda(object):
@@ -18,7 +19,8 @@ class Busqueda(object):
 
     def aplicaBusqueda(self):
         """Este metodo crea el algoritmo para buscar."""
-        while self.cola.size != 0:
+        self.cola.push(self.inicial)
+        while self.cola.size > 0:
             estado = self.cola.pop()
             resultadoPreliminar = self.introduceCola(estado)
             if resultadoPreliminar is not None:
@@ -33,10 +35,15 @@ class Busqueda(object):
         """
         resultado = None
         for estado in generador.siguientes():
-            if (estado == self.inicial):
+            if (estado == self.final):
                 resultado = estado
                 break
             hashCode = estado.serializa()
             if hashCode not in self.diccionario:
-                self.cola.push(hashCode)
+                self.cola.push(estado)
         return resultado
+
+caballoInicial = Modelo.Caballo(2, 2, 5, 5)
+caballoFinal = Modelo.Caballo(1, 3, 5, 5)
+programaNuevo = Busqueda(caballoInicial, caballoFinal)
+programaNuevo.aplicaBusqueda()

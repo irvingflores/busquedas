@@ -22,6 +22,15 @@ class Modelo(object):
         stringVariable = pickle.dumps(self)
         return stringVariable
 
+    def __eq__(self, other):
+        """Implementacion generica de igualdad de modelos."""
+        return (isinstance(other, self.__class__) and
+                self.__dict__ == other.__dict__)
+
+    def __ne__(self, other):
+        """Implementacion generica de inequidad."""
+        return not self.__eq__(other)
+
     @staticmethod
     def deserializa(serializado):
         """Deseriaiza un string en el modelo."""
@@ -45,9 +54,11 @@ class Caballo(Modelo):
 
     def imprime(self):
         """Imprime la posicion del caballo."""
+        print "------------------"
         print "El caballo esta en"
         print "x: ", self.x
         print "y: ", self.y
+        print "------------------"
 
     def valida(self, x, y):
         """Valida si una cordenada esta dentro del tablero."""
@@ -90,11 +101,12 @@ class Caballo(Modelo):
             lista.append(Caballo(newx, newy, self.width, self.eight))
         return lista
 
-nada = Caballo(7, 7, 8, 8)
-otro = Caballo(7, 7, 8, 8)
-print nada == otro
-for estado in nada.siguientes():
-    estado.imprime()
-blabla = nada.serializa()
-nana = Caballo.deserializa(blabla)
-print nana == nada
+if __name__ == "__main__":
+    nada = Caballo(7, 7, 8, 8)
+    otro = Caballo(7, 7, 8, 8)
+    print nada == otro
+    for estado in nada.siguientes():
+        estado.imprime()
+        blabla = nada.serializa()
+        nana = Caballo.deserializa(blabla)
+        print nana == nada
