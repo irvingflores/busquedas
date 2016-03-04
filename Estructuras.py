@@ -37,8 +37,6 @@ class ColaPython(ColaAbstracta):
 
     def push(self, objeto):
         """Implementacion de push."""
-        print "Insertando objeto a la cola"
-        #print objeto.imprime()
         self.lista.append(objeto)
         self.size += 1
 
@@ -47,8 +45,6 @@ class ColaPython(ColaAbstracta):
         if self.size == 0:
             raise ValueError("La lista esta vacia.")
         objetoPop = self.lista[self.inicio]
-        #print "Sacando objeto de la cola"
-        print objetoPop.imprime()
         self.lista[self.inicio] = None
         self.inicio += 1
         self.size -= 1

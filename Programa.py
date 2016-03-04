@@ -26,6 +26,7 @@ class Busqueda(object):
             if resultadoPreliminar is not None:
                 break
         print "Ya acabe"
+        resultadoPreliminar.imprime()
 
     def introduceCola(self, generador):
         """Este metodo introduce a la cola los estados generados.

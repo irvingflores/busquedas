@@ -10,7 +10,7 @@ class Modelo(object):
 
     def __init__(self):
         """Constructor para crear modelos."""
-        pass
+        self.pasos = 0
 
     @abc.abstractmethod
     def imprime(self):
@@ -47,6 +47,7 @@ class Caballo(Modelo):
 
     def __init__(self, x, y, width, eight):
         """El constructor recibe la posicion del caballo."""
+        super(Caballo, self).__init__()
         self.x = x
         self.y = y
         self.width = width
@@ -110,3 +111,4 @@ if __name__ == "__main__":
         blabla = nada.serializa()
         nana = Caballo.deserializa(blabla)
         print nana == nada
+    print otro.pasos
