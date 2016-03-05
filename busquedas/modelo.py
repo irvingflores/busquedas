@@ -24,6 +24,14 @@ class Modelo(object):
 
     def __eq__(self, other):
         """Implementacion generica de igualdad de modelos."""
+        if isinstance(other, self.__class__):
+            dicSelf = self.__dict__.copy()
+            dicOther = other.__dict__.copy()
+            dicSelf["pasos"] = 0
+            dicOther["pasos"] = 0
+            return dicOther == dicSelf
+        else:
+            return False
         return (isinstance(other, self.__class__) and
                 self.__dict__ == other.__dict__)
 
@@ -116,8 +124,8 @@ class Caballo(Modelo):
         return lista
 
 if __name__ == "__main__":
-    nada = Caballo(7, 7, 8, 8)
-    otro = Caballo(7, 7, 8, 8)
+    nada = Caballo(7, 7, 8, 8, 1)
+    otro = Caballo(7, 7, 8, 8, 2)
     print nada == otro
     for estado in nada.siguientesEstados():
         estado.imprime()

@@ -44,7 +44,7 @@ class Busqueda(object):
                 self.cola.push(estado)
         return resultado
 
-caballoInicial = modelo.Caballo(2, 2, 5, 5)
-caballoFinal = modelo.Caballo(1, 3, 5, 5)
+caballoInicial = modelo.Caballo(2, 2, 8, 8)
+caballoFinal = modelo.Caballo(8, 8, 8, 8)
 programaNuevo = Busqueda(caballoInicial, caballoFinal)
 programaNuevo.aplicaBusqueda()
