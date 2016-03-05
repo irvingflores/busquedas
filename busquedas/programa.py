@@ -1,6 +1,6 @@
 """Este modulo implementa la busqueda en anchura."""
-import Estructuras
-import Modelo
+import estructuras
+import modelo
 
 
 class Busqueda(object):
@@ -14,7 +14,7 @@ class Busqueda(object):
         """
         self.inicial = estadoInicial
         self.final = estadoFinal
-        self.cola = Estructuras.ColaPython()
+        self.cola = estructuras.ColaPython()
         self.diccionario = {}
 
     def aplicaBusqueda(self):
@@ -35,7 +35,7 @@ class Busqueda(object):
         regresa al final, si no se regresa None
         """
         resultado = None
-        for estado in generador.siguientes():
+        for estado in generador.siguientesEstados():
             if (estado == self.final):
                 resultado = estado
                 break
@@ -44,7 +44,7 @@ class Busqueda(object):
                 self.cola.push(estado)
         return resultado
 
-caballoInicial = Modelo.Caballo(2, 2, 5, 5)
-caballoFinal = Modelo.Caballo(1, 3, 5, 5)
+caballoInicial = modelo.Caballo(2, 2, 5, 5)
+caballoFinal = modelo.Caballo(1, 3, 5, 5)
 programaNuevo = Busqueda(caballoInicial, caballoFinal)
 programaNuevo.aplicaBusqueda()
