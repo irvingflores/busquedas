@@ -8,9 +8,13 @@ class Modelo(object):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, pasos):
+    def __init__(self):
         """Constructor para crear modelos."""
-        self.pasos = pasos
+        self.pasos = 0
+
+    def setPasos(self, pasosNuevos):
+        """Set de la variable pasos."""
+        self.pasos = pasosNuevos
 
     @abc.abstractmethod
     def imprime(self):
@@ -46,10 +50,13 @@ class Modelo(object):
 
     def siguientesEstados(self):
         """Calcula los siguientes estados agregando un paso."""
-        return self.siguientes(self.pasos + 1)
+        listaSiguientes = self.siguientes()
+        for estado in listaSiguientes:
+            estado.setPasos(self.pasos + 1)
+        return listaSiguientes
 
     @abc.abstractmethod
-    def siguientes(self, pasosSiguientes):
+    def siguientes(self):
         """Regresa una lista de las posibles soluciones."""
         return
 
@@ -57,9 +64,9 @@ class Modelo(object):
 class Caballo(Modelo):
     """La clase que representa al caballo en un tablero de ajedrez."""
 
-    def __init__(self, x, y, width, eight, pasos=0):
+    def __init__(self, x, y, width, eight):
         """El constructor recibe la posicion del caballo."""
-        super(Caballo, self).__init__(pasos)
+        super(Caballo, self).__init__()
         self.x = x
         self.y = y
         self.width = width
@@ -78,54 +85,54 @@ class Caballo(Modelo):
         """Valida si una cordenada esta dentro del tablero."""
         return x < self.width and x >= 0 and y < self.eight and y >= 0
 
-    def siguientes(self, pasosSiguientes):
+    def siguientes(self):
         """Crea todos los movientos posibles del caballo."""
         lista = []
         newx = self.x + 1
         newy = self.y + 2
         if (self.valida(newx, newy)):
             lista.append(Caballo(newx, newy, self.width,
-                                 self.eight, pasosSiguientes))
+                                 self.eight))
         newx = self.x + 1
         newy = self.y - 2
         if self.valida(newx, newy):
             lista.append(Caballo(newx, newy, self.width,
-                                 self.eight, pasosSiguientes))
+                                 self.eight))
         newx = self.x - 1
         newy = self.y + 2
         if self.valida(newx, newy):
             lista.append(Caballo(newx, newy, self.width,
-                                 self.eight, pasosSiguientes))
+                                 self.eight))
         newx = self.x - 1
         newy = self.y - 2
         if self.valida(newx, newy):
             lista.append(Caballo(newx, newy, self.width,
-                                 self.eight, pasosSiguientes))
+                                 self.eight))
         newx = self.x + 2
         newy = self.y + 1
         if (self.valida(newx, newy)):
             lista.append(Caballo(newx, newy, self.width,
-                                 self.eight, pasosSiguientes))
+                                 self.eight))
         newx = self.x + 2
         newy = self.y - 1
         if self.valida(newx, newy):
             lista.append(Caballo(newx, newy, self.width,
-                         self.eight, pasosSiguientes))
+                         self.eight))
         newx = self.x - 2
         newy = self.y + 1
         if self.valida(newx, newy):
             lista.append(Caballo(newx, newy, self.width,
-                                 self.eight, pasosSiguientes))
+                                 self.eight))
         newx = self.x - 2
         newy = self.y - 1
         if self.valida(newx, newy):
             lista.append(Caballo(newx, newy, self.width,
-                                 self.eight, pasosSiguientes))
+                                 self.eight))
         return lista
 
 if __name__ == "__main__":
-    nada = Caballo(7, 7, 8, 8, 1)
-    otro = Caballo(7, 7, 8, 8, 2)
+    nada = Caballo(7, 7, 8, 8)
+    otro = Caballo(7, 7, 8, 8)
     print nada == otro
     for estado in nada.siguientesEstados():
         estado.imprime()

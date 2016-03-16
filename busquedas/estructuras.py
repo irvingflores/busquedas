@@ -6,6 +6,25 @@ tareas e implementaciones.
 import abc
 
 
+class Diccionario(object):
+    """Clase para guardar los serializados y manejarlos con un id corto."""
+
+    def __init__(self):
+        """Constructor de la clase."""
+        self.diccionario = {}
+        self.lastId = 0
+
+    def put(self, serializado):
+        """Introduce un objeto serializado y lo almacena dandonos un id."""
+        self.lastId += 1
+        self.diccionario[self.lastId] = serializado
+        return self.lastId
+
+    def get(self, id):
+        """Obtiene el serializado a partir de un id."""
+        return self.diccionario[id]
+
+
 class ColaAbstracta(object):
     """Clase abstracta de la cola."""
 
@@ -37,8 +56,6 @@ class ColaPython(ColaAbstracta):
 
     def push(self, objeto):
         """Implementacion de push."""
-        print "Inserta en la cola"
-        objeto.imprime()
         self.lista.append(objeto)
         self.size += 1
 
@@ -47,8 +64,6 @@ class ColaPython(ColaAbstracta):
         if self.size == 0:
             raise ValueError("La lista esta vacia.")
         objetoPop = self.lista[self.inicio]
-        print "Saca de la cola"
-        objetoPop.imprime()
         self.lista[self.inicio] = None
         self.inicio += 1
         self.size -= 1
@@ -59,7 +74,6 @@ if __name__ == "__main__":
     cola.push("hola")
     cola.push("adios")
     cola.push("nananana")
-    print cola.pop()
     print cola.pop()
     print cola.pop()
     print cola.pop()
