@@ -6,25 +6,6 @@ tareas e implementaciones.
 import abc
 
 
-class Diccionario(object):
-    """Clase para guardar los serializados y manejarlos con un id corto."""
-
-    def __init__(self):
-        """Constructor de la clase."""
-        self.diccionario = {}
-        self.lastId = 0
-
-    def put(self, serializado):
-        """Introduce un objeto serializado y lo almacena dandonos un id."""
-        self.lastId += 1
-        self.diccionario[self.lastId] = serializado
-        return self.lastId
-
-    def get(self, id):
-        """Obtiene el serializado a partir de un id."""
-        return self.diccionario[id]
-
-
 class ColaAbstracta(object):
     """Clase abstracta de la cola."""
 

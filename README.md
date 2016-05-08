@@ -5,5 +5,5 @@ Un framework para crear busquedas brutas
 Cuenta con busqueda de anchura solamente y un modelo de ejemplo del caballo.
 
 ## Todos
-* Falta guardar los repetidos en un diccionario
-* Crear representaciones cortas de un objeto serializado
+* Hacer que la llave de los repetidos no sea tan grande
+* Mejor presentacion para el resultado

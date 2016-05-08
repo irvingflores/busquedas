@@ -6,7 +6,7 @@ import modelo
 class Busqueda(object):
     """Esta clase implementa la busqueda de anchura."""
 
-    def __init__(self, estadoInicial, estadoFinal):
+    def __init__(self, tipo, estadoInicial, estadoFinal):
         """El constructor de una busqueda.
 
         El constructor de la busqueda necesita como primer
@@ -16,17 +16,28 @@ class Busqueda(object):
         self.final = estadoFinal
         self.cola = estructuras.ColaPython()
         self.diccionario = {}
+        self.padres = {}
+        self.tipo = tipo
 
     def aplicaBusqueda(self):
         """Este metodo crea el algoritmo para buscar."""
-        self.cola.push(self.inicial)
+        self.cola.push(self.inicial.serializa())
+        self.padres[self.inicial.serializa()] = 1
         while self.cola.size > 0:
-            estado = self.cola.pop()
+            estado = self.tipo.deserializa(self.cola.pop())
             resultadoPreliminar = self.introduceCola(estado)
             if resultadoPreliminar is not None:
                 break
         print "Ya acabe"
         resultadoPreliminar.imprime()
+        self.imprimeCamino(resultadoPreliminar)
+
+    def imprimeCamino(self, final):
+        """Este metodo imprime el camino para encontrar el objetivo."""
+        papa = self.padres[final.serializa()]
+        while papa != 1:
+            self.tipo.deserializa(papa).imprime()
+            papa = self.padres[papa]
 
     def introduceCola(self, generador):
         """Este metodo introduce a la cola los estados generados.
@@ -37,16 +48,19 @@ class Busqueda(object):
         resultado = None
         for estado in generador.siguientesEstados():
             if (estado == self.final):
+                self.padres[estado.serializa()] = generador.serializa()
                 resultado = estado
                 break
             hashCode = estado.serializa()
             if hashCode not in self.diccionario:
-                self.cola.push(estado)
+                self.cola.push(hashCode)
+                self.padres[hashCode] = generador.serializa()
+                self.diccionario[hashCode] = 1
         return resultado
 
 if __name__ == "__main__":
 
     caballoInicial = modelo.Caballo(2, 2, 8, 8)
-    caballoFinal = modelo.Caballo(4, 6, 8, 8)
-    programaNuevo = Busqueda(caballoInicial, caballoFinal)
+    caballoFinal = modelo.Caballo(7, 3, 8, 8)
+    programaNuevo = Busqueda(modelo.Caballo, caballoInicial, caballoFinal)
     programaNuevo.aplicaBusqueda()
